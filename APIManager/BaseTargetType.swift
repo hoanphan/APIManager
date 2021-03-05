@@ -8,7 +8,7 @@
 
 import Moya
 
-protocol BaseTargetType: TargetType {
+public protocol BaseTargetType: TargetType {
     var parameters: [String: Any]? {get}
     var parameterEncoding: ParameterEncoding {get}
 }
@@ -16,5 +16,9 @@ protocol BaseTargetType: TargetType {
 extension BaseTargetType {
     public var sampleData: Data {
         return Data()
+    }
+
+    public var task: Moya.Task {
+        return .requestParameters(parameters: self.parameters! , encoding: parameterEncoding)
     }
 }

@@ -11,18 +11,25 @@ import Alamofire
 import Moya
 import RxSwift
 
-class APIManager<TSAPI: BaseTargetType> {
-    var timeoutIntervalForRequest: Int = 60
-
-    init() {
+public class TSAPIManager {
+    var timeoutIntervalForRequest: TimeInterval = 60
+    
+    public static let share:TSAPIManager = TSAPIManager()
+    
+    public init() {
     }
-
-    init(timeoutIntervalForRequest: Int) {
+    
+    public init(timeoutIntervalForRequest: TimeInterval) {
         self.timeoutIntervalForRequest = timeoutIntervalForRequest
     }
-
-    let endpointClosure = { (target: TSAPI) -> Endpoint in
-
+    
+    fileprivate func getAlamofireManager() -> SessionManager {
+        let manager = Alamofire.SessionManager.default
+        manager.session.configuration.timeoutIntervalForRequest = timeoutIntervalForRequest
+        return manager
+    }
+    
+    func getEnpoint<API: BaseTargetType>(_ target: API) -> Endpoint {
         let endpoint: Endpoint = Endpoint(
             url: target.baseURL.absoluteString + target.path,
             sampleResponseClosure: {
@@ -31,16 +38,17 @@ class APIManager<TSAPI: BaseTargetType> {
             task: target.task,
             httpHeaderFields: target.headers
         )
-
         return endpoint
     }
-
-    func getAPiProvide() -> OnlineProvider<TSAPI> {
-        return OnlineProvider<TSAPI>(endpointClosure: self.endpointClosure, plugins: [NetworkLoggerPlugin(verbose: true,
-        responseDataFormatter: JSONResponseDataFormatter)])
+    
+    fileprivate func getProvider<API: BaseTargetType>(_: API.Type) -> MoyaProvider<API> {
+        return MoyaProvider<API>(endpointClosure: self.getEnpoint,
+                                 manager: self.getAlamofireManager(),
+                                 plugins: [NetworkLoggerPlugin(verbose: true,
+                                                               responseDataFormatter: JSONResponseDataFormatter)])
     }
-
-    private func JSONResponseDataFormatter(_ data: Data) -> Data {
+    
+    fileprivate func JSONResponseDataFormatter(_ data: Data) -> Data {
         do {
             let dataAsJSON = try JSONSerialization.jsonObject(with: data)
             let prettyData = try JSONSerialization.data(withJSONObject: dataAsJSON, options: .prettyPrinted)
@@ -49,30 +57,10 @@ class APIManager<TSAPI: BaseTargetType> {
             return data
         }
     }
-
-    class OnlineProvider<TSAPI>: MoyaProvider<TSAPI> where TSAPI: TargetType {
-
-        static var AlamofireManager: SessionManager {
-            // manager
-            let manager = Alamofire.SessionManager.default
-            manager.session.configuration.timeoutIntervalForRequest = 60
-            return manager
-        }
-
-        override init(endpointClosure: @escaping EndpointClosure = MoyaProvider.defaultEndpointMapping,
-                      requestClosure: @escaping RequestClosure = MoyaProvider<TSAPI>.defaultRequestMapping,
-                      stubClosure: @escaping StubClosure = MoyaProvider.neverStub,
-                      callbackQueue: DispatchQueue? = DispatchQueue.main,
-                      manager: Manager = OnlineProvider.AlamofireManager,
-                      plugins: [PluginType] = [],
-                      trackInflights: Bool = false) {
-
-            let managerAlamofire = OnlineProvider.AlamofireManager
-            super.init(endpointClosure: endpointClosure,
-                       requestClosure: requestClosure,
-                       stubClosure: stubClosure,
-                       manager: managerAlamofire, plugins: plugins, trackInflights: trackInflights)
-        }
+    
+    public func request<API: BaseTargetType>(api: API, provider: MoyaProvider<API>? = nil, queue: DispatchQueue? = nil) -> Observable<Response> {
+        let provider = provider ?? self.getProvider(API.self)
+        return provider.request(api)
     }
 }
 
@@ -89,10 +77,11 @@ extension MoyaProvider {
                     observer.onError(error)
                 }
             }
-
+            
             return Disposables.create {
                 cancellableToken.cancel()
             }
         }
     }
 }
+
