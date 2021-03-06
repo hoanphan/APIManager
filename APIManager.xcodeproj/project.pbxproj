@@ -13,6 +13,8 @@
 		B226591025F28EA6005A8971 /* TSApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B226590F25F28EA6005A8971 /* TSApiManager.swift */; };
 		B226591225F293F4005A8971 /* Observable+MoyaObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B226591125F293F4005A8971 /* Observable+MoyaObjectMapper.swift */; };
 		B226591425F295F4005A8971 /* Observable+ObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B226591325F295F4005A8971 /* Observable+ObjectMapper.swift */; };
+		B2B3110B25F35FA600B8634C /* ErrorTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B3110925F35FA600B8634C /* ErrorTracker.swift */; };
+		B2B3110C25F35FA600B8634C /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B3110A25F35FA600B8634C /* ActivityIndicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		B226590F25F28EA6005A8971 /* TSApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSApiManager.swift; sourceTree = "<group>"; };
 		B226591125F293F4005A8971 /* Observable+MoyaObjectMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+MoyaObjectMapper.swift"; sourceTree = "<group>"; };
 		B226591325F295F4005A8971 /* Observable+ObjectMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+ObjectMapper.swift"; sourceTree = "<group>"; };
+		B2B3110925F35FA600B8634C /* ErrorTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorTracker.swift; sourceTree = "<group>"; };
+		B2B3110A25F35FA600B8634C /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,14 +82,32 @@
 		B226590425F28AD8005A8971 /* APIManager */ = {
 			isa = PBXGroup;
 			children = (
+				B2B3110D25F35FDB00B8634C /* Manager */,
+				B2B3110825F35FA600B8634C /* Trackers */,
 				B226590525F28AD8005A8971 /* APIManager.h */,
 				B226590625F28AD8005A8971 /* Info.plist */,
+			);
+			path = APIManager;
+			sourceTree = "<group>";
+		};
+		B2B3110825F35FA600B8634C /* Trackers */ = {
+			isa = PBXGroup;
+			children = (
+				B2B3110925F35FA600B8634C /* ErrorTracker.swift */,
+				B2B3110A25F35FA600B8634C /* ActivityIndicator.swift */,
+			);
+			path = Trackers;
+			sourceTree = "<group>";
+		};
+		B2B3110D25F35FDB00B8634C /* Manager */ = {
+			isa = PBXGroup;
+			children = (
 				B226590D25F28D3F005A8971 /* BaseTargetType.swift */,
 				B226590F25F28EA6005A8971 /* TSApiManager.swift */,
 				B226591125F293F4005A8971 /* Observable+MoyaObjectMapper.swift */,
 				B226591325F295F4005A8971 /* Observable+ObjectMapper.swift */,
 			);
-			path = APIManager;
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -217,6 +239,8 @@
 				B226590E25F28D3F005A8971 /* BaseTargetType.swift in Sources */,
 				B226591025F28EA6005A8971 /* TSApiManager.swift in Sources */,
 				B226591225F293F4005A8971 /* Observable+MoyaObjectMapper.swift in Sources */,
+				B2B3110C25F35FA600B8634C /* ActivityIndicator.swift in Sources */,
+				B2B3110B25F35FA600B8634C /* ErrorTracker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

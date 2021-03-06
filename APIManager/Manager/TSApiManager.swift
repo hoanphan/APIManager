@@ -13,22 +13,22 @@ import RxSwift
 
 public class TSAPIManager {
     var timeoutIntervalForRequest: TimeInterval = 60
-    
+
     public static let share:TSAPIManager = TSAPIManager()
-    
+
     public init() {
     }
-    
+
     public init(timeoutIntervalForRequest: TimeInterval) {
         self.timeoutIntervalForRequest = timeoutIntervalForRequest
     }
-    
+
     fileprivate func getAlamofireManager() -> SessionManager {
         let manager = Alamofire.SessionManager.default
         manager.session.configuration.timeoutIntervalForRequest = timeoutIntervalForRequest
         return manager
     }
-    
+
     func getEnpoint<API: BaseTargetType>(_ target: API) -> Endpoint {
         let endpoint: Endpoint = Endpoint(
             url: target.baseURL.absoluteString + target.path,
@@ -40,14 +40,14 @@ public class TSAPIManager {
         )
         return endpoint
     }
-    
+
     fileprivate func getProvider<API: BaseTargetType>(_: API.Type) -> MoyaProvider<API> {
         return MoyaProvider<API>(endpointClosure: self.getEnpoint,
                                  manager: self.getAlamofireManager(),
                                  plugins: [NetworkLoggerPlugin(verbose: true,
                                                                responseDataFormatter: JSONResponseDataFormatter)])
     }
-    
+
     fileprivate func JSONResponseDataFormatter(_ data: Data) -> Data {
         do {
             let dataAsJSON = try JSONSerialization.jsonObject(with: data)
@@ -57,7 +57,7 @@ public class TSAPIManager {
             return data
         }
     }
-    
+
     public func request<API: BaseTargetType>(api: API, provider: MoyaProvider<API>? = nil, queue: DispatchQueue? = nil) -> Observable<Response> {
         let provider = provider ?? self.getProvider(API.self)
         return provider.request(api)
@@ -77,11 +77,10 @@ extension MoyaProvider {
                     observer.onError(error)
                 }
             }
-            
+
             return Disposables.create {
                 cancellableToken.cancel()
             }
         }
     }
 }
-

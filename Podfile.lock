@@ -7,6 +7,11 @@ PODS:
     - Result (~> 4.1)
   - ObjectMapper (4.2.0)
   - Result (4.1.0)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
   - RxSwift (5.1.1)
   - SwiftLint (0.43.0)
 
@@ -14,6 +19,7 @@ DEPENDENCIES:
   - Alamofire
   - Moya
   - ObjectMapper
+  - RxCocoa
   - RxSwift
   - SwiftLint
 
@@ -23,6 +29,8 @@ SPEC REPOS:
     - Moya
     - ObjectMapper
     - Result
+    - RxCocoa
+    - RxRelay
     - RxSwift
     - SwiftLint
 
@@ -31,9 +39,11 @@ SPEC CHECKSUMS:
   Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SwiftLint: 0c645fdc6feed3e390c1701ab3cc669f88b42752
 
-PODFILE CHECKSUM: ee0b5caea646d53e5e6902d3ebd99119c276636e
+PODFILE CHECKSUM: 9fa8a6faca3fb419b01a740d60bd8031945a875c
 
 COCOAPODS: 1.9.3

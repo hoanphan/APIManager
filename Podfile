@@ -4,6 +4,7 @@ platform :ios, '9.0'
 target 'APIManager' do
   use_frameworks!
   pod 'RxSwift'
+  pod 'RxCocoa'
   
   # Networking
   pod 'Alamofire'
